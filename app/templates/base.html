@@ -26,7 +26,11 @@
         <div>
             <ul>
                 <li><a class="{% if request.endpoint == "index" %} active {% endif %}" href="{{ url_for("index") }}">Home</a></li>
+                {% if current_user.is_anonymous %}
                 <li><a class="{% if request.endpoint == "login" %} active {% endif %}" href="{{ url_for("login") }}">Log In</a></li>
+                {% else %}
+                <li><a class="{% if request.endpoint == "logout" %} active {% endif %}" href="{{ url_for("logout") }}">Log Out</a></li>
+                {% endif %}
             </ul>
         </div>
 
