@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, EqualTo
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, EqualTo, Length
 from app.models import User
 
 class LoginForm(FlaskForm):
@@ -19,3 +19,8 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
+
+class AddPostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=100)])
+    post = TextAreaField('Type your thoughts', validators=[DataRequired(), Length(min=1, max=500)])
+    submit = SubmitField('Submit New Post')
