@@ -21,6 +21,8 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <h1>Welcome to Flask Diaries!</h1>
+
         <div>
             <ul>
                 <li><a class="{% if request.endpoint == "index" %} active {% endif %}" href="{{ url_for("index") }}">Home</a></li>
@@ -28,7 +30,16 @@
             </ul>
         </div>
 
-        <h1>Hello World</h1>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
 
         {% block content %}{% endblock %}
         
