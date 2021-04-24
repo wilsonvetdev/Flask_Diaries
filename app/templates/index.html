@@ -24,13 +24,27 @@
     </form>
 
     <hr>
-    {% for post in posts %}
-        <p><b>Title: {{ post.title }}</b></p>
-        <p>{{ post.body }}</p>
-        <p>{{ moment(post.timestamp).calendar() }}</p>
-        <button><a href="{{ url_for('update', post_id=post.id) }}">Edit Post</a></button>
-        <button><a href="{{ url_for('delete', post_id=post.id) }}">Delete Post</a></button>
-    <hr>
-    {% endfor %}
+    <div>
+        <h3>Your Blog Posts Here</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+            {% for post in posts %}
+            <tr>
+                <td><p><b>{{ post.title }}</b></p></td>
+                <td><p>{{ post.body }}</p></td>
+                <td><p>{{ moment(post.timestamp).calendar() }}</p></td>
+                <td>
+                    <button><a href="{{ url_for('update', post_id=post.id) }}">Edit Post</a></button>
+                    <button><a href="{{ url_for('delete', post_id=post.id) }}">Delete Post</a></button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 
 {% endblock %}
