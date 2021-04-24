@@ -9,10 +9,10 @@ from werkzeug.urls import url_parse
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    form = AddPostForm()
+    addPostForm = AddPostForm()
 
-    if form.validate_on_submit():
-        post = Post(title=form.title.data, body=form.post.data, author=current_user)
+    if addPostForm.validate_on_submit():
+        post = Post(title=addPostForm.title.data, body=addPostForm.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
@@ -20,7 +20,7 @@ def index():
     
     posts = current_user.posts.order_by(Post.timestamp.desc())
 
-    return render_template('index.html', title='Home', form=form, posts=posts)
+    return render_template('index.html', title='Home', addPostForm=addPostForm, posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -51,7 +51,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -67,7 +67,19 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
+        flash('Congratulations, you are now a registered user! Please log in with your credentials.')
         return redirect(url_for('login'))
 
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/post/<post_id>/delete', methods=['GET', 'POST'])
+def delete(post_id):
+
+    post = Post.query.filter_by(id=post_id).first()
+
+    if post and post.author == current_user:
+        db.session.delete(post)
+        db.session.commit()
+        return redirect(url_for('index'))
+    
+    return redirect(url_for('index'))
