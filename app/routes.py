@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, AddPostForm
+from app.forms import LoginForm, RegistrationForm, AddPostForm, UpdatePostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post
 from werkzeug.urls import url_parse
@@ -12,7 +12,7 @@ def index():
     addPostForm = AddPostForm()
 
     if addPostForm.validate_on_submit():
-        post = Post(title=addPostForm.title.data, body=addPostForm.post.data, author=current_user)
+        post = Post(title=addPostForm.title.data, body=addPostForm.body.data, author=current_user)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
@@ -71,6 +71,21 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/post/<post_id>/retrieve')
+def retrieve(post_id):
+    form = UpdatePostForm()
+    post = Post.query.filter_by(id=post_id).first()
+
+    return render_template('_post.html', post=post, form=form)
+
+@app.route('/post/<post_id>/update', methods=['GET', 'POST'])
+def update(post_id):
+    post = Post.query.filter_by(id=post_id).first()
+
+    pass
+
 
 @app.route('/post/<post_id>/delete', methods=['GET', 'POST'])
 def delete(post_id):

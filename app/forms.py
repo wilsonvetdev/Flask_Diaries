@@ -22,5 +22,10 @@ class RegistrationForm(FlaskForm):
 
 class AddPostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=1, max=100)])
-    post = TextAreaField('Type your thoughts', validators=[DataRequired(), Length(min=1, max=500)])
+    body = TextAreaField('Type your thoughts', validators=[DataRequired(), Length(min=1, max=500)])
     submit = SubmitField('Submit New Post')
+
+class UpdatePostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(min=1, max=100)])
+    body = TextAreaField('Type your thoughts', validators=[DataRequired(), Length(min=1, max=500)])
+    submit = SubmitField('Update Post')

@@ -14,9 +14,9 @@
             {% endfor %}
         </p>
         <p>
-            {{ addPostForm.post.label }}<br>
-            {{ addPostForm.post(cols=32, rows=4) }}<br>
-            {% for error in addPostForm.post.errors %}
+            {{ addPostForm.body.label }}<br>
+            {{ addPostForm.body(cols=32, rows=4, default='hello type here') }}<br>
+            {% for error in addPostForm.body.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
@@ -28,6 +28,7 @@
         <p><b>Title: {{ post.title }}</b></p>
         <p>{{ post.body }}</p>
         <p>{{ moment(post.timestamp).calendar() }}</p>
+        <button><a href="{{ url_for('retrieve', post_id=post.id) }}">Edit Post</a></button>
         <button><a href="{{ url_for('delete', post_id=post.id) }}">Delete Post</a></button>
     <hr>
     {% endfor %}
