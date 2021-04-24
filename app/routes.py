@@ -73,23 +73,34 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/post/<post_id>/retrieve')
-def retrieve(post_id):
+@app.route('/post/<post_id>/update', methods=['GET', 'POST'])
+@login_required
+def update(post_id):
     form = UpdatePostForm()
     post = Post.query.filter_by(id=post_id).first()
-    form.title.data = post.title 
-    form.body.data = post.body
+
+    if request.method == 'GET':
+        form.title.data = post.title 
+        form.body.data = post.body
+
+    if form.validate_on_submit():
+        if post:
+            db.session.delete(post)
+            db.session.commit()
+
+            title = form.title.data
+            body = form.body.data
+            updated_post = Post(id=post_id, author=current_user, title=title, body=body)
+            db.session.add(updated_post)
+            db.session.commit()
+            
+            flash('Your post is successfully updated!')
+            return redirect(url_for('index'))
 
     return render_template('_post.html', post=post, form=form)
 
-@app.route('/post/<post_id>/update', methods=['GET', 'POST'])
-def update(post_id):
-    post = Post.query.filter_by(id=post_id).first()
-
-    pass
-
-
 @app.route('/post/<post_id>/delete', methods=['GET', 'POST'])
+@login_required
 def delete(post_id):
 
     post = Post.query.filter_by(id=post_id).first()
