@@ -19,7 +19,7 @@
   * $ python3 -m venv env
   * $ source env/bin/activate
   * $ pip install -r requirements.txt
-3. run in CLI - flask run <br><b>Note: ENV variables defined in .flaskenv file already if you want to take a look.</b>
+3. run in CLI - $ flask run <br><b>Note: ENV variables defined in .flaskenv file already if you want to take a look.</b>
 4. visit http://127.0.0.1:5000/ on your browser
 
 ### Functionalities
@@ -28,3 +28,4 @@
 2. Existing user/blogger is able to create/edit/delete posts.
 3. Posts are ordered by timestamp in descending order on a user's home page.
 4. Updated posts will appear on the top of all posts.
+5. Supports multiple users and posts keep track of their individual author.
