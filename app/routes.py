@@ -77,6 +77,8 @@ def register():
 def retrieve(post_id):
     form = UpdatePostForm()
     post = Post.query.filter_by(id=post_id).first()
+    form.title.data = post.title 
+    form.body.data = post.body
 
     return render_template('_post.html', post=post, form=form)
 
