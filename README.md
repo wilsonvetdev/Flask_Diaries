@@ -24,7 +24,7 @@
 
 ### Functionalities
 
-1. User is able to register a new account.
+1. User is able to register a new account. (You can also use existing account username: wilson, password: password123 if anything)
 2. Existing user/blogger is able to create/edit/delete posts.
 3. Posts are ordered by timestamp in descending order on a user's home page.
 4. Updated posts will appear on the top of all posts.
